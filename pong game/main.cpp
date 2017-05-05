@@ -1,11 +1,25 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 using namespace std;
-SDL_Renderer* Render;
+int dorender();
 SDL_Rect rectangle;
 SDL_Rect rectangle1;
-int dorender();
-int main()
+bool loop = true;
+SDL_Renderer* Render;
+int loadvarsandcreatewindowobject()
+{
+	int positionx = 50;
+	int positiony = 50;
+	int sizex = 800;
+	int sizey = 800;
+	SDL_Window* Window;
+	SDL_InitSubSystem(SDL_INIT_EVERYTHING);
+	Window = SDL_CreateWindow("Test", positionx, positiony, sizex, sizey, SDL_WINDOW_OPENGL);
+	Render = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_RenderSetLogicalSize(Render, sizex, sizey);
+}
+
+int loadsquaredef()
 {
 	rectangle.x = 20;
 	rectangle.y = 300;
@@ -15,19 +29,10 @@ int main()
 	rectangle1.y = 300;
 	rectangle1.w = 30;
 	rectangle1.h = 200;
-	int positionx = 50;
-	int positiony = 50;
-	int sizex = 800;
-	int sizey = 800;
-	SDL_Window* Window;
-	bool loop = true;
-	SDL_InitSubSystem(SDL_INIT_EVERYTHING);
-	Window = SDL_CreateWindow("Test", positionx, positiony, sizex, sizey, SDL_WINDOW_OPENGL);
-	Render = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
-	SDL_RenderSetLogicalSize(Render, sizex, sizey);
-	dorender();
-
-	while(loop = true)
+}
+int movementlogic()
+{
+	while(loop == true)
 		{
 			SDL_Event event;
 
@@ -66,9 +71,7 @@ int main()
 
 		}
 
-	return 0;
 }
-
 int dorender()
 {
 	SDL_RenderClear(Render);
@@ -76,4 +79,13 @@ int dorender()
 	SDL_RenderFillRect(Render, &rectangle);
 	SDL_RenderPresent(Render);
 
+}
+
+int main()
+{
+	loadvarsandcreatewindowobject();
+	loadsquaredef();
+	dorender();
+	movementlogic();
+	return 0;
 }
