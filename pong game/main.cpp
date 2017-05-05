@@ -28,11 +28,9 @@ int main()
 	Render = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
 	SDL_RenderSetLogicalSize(Render, sizex, sizey);
 	SDL_RenderClear(Render);
-	SDL_SetRenderDrawColor(Render, cyan[1], cyan[2], cyan[3], cyan[4] );
 	SDL_RenderFillRect(Render, &rectangle);
 	SDL_RenderFillRect(Render, &rectangle1);
 	cout << "RENDERED" << endl;
-	SDL_SetRenderDrawColor(Render, grey[1], grey[2], grey[3], grey[4]);
 	SDL_RenderPresent(Render);
 	while(loop = true)
 		{
@@ -46,49 +44,33 @@ int main()
 							switch(event.key.keysym.sym)
 								{
 									case SDLK_RIGHT:
-										rectangle1.y = rectangle1.y + 5;
+										rectangle1.y += 10;
 										SDL_RenderClear(Render);
-										SDL_SetRenderDrawColor(Render, cyan[1], cyan[2], cyan[3], cyan[4] );
-										SDL_RenderFillRect(Render, &rectangle);
-										SDL_RenderFillRect(Render, &rectangle1);
-										cout << "RENDERED" << endl;
-										SDL_SetRenderDrawColor(Render, grey[1], grey[2], grey[3], grey[4]);
+                                        SDL_RenderFillRect(Render, &rectangle1);
+                                        SDL_RenderFillRect(Render, &rectangle);
 										SDL_RenderPresent(Render);
-										cout << rectangle1.y << endl;
 										break;
 									case SDLK_LEFT:
-										rectangle1.y = rectangle1.y - 5;
+										rectangle1.y -= 10;
 										SDL_RenderClear(Render);
-										SDL_SetRenderDrawColor(Render, cyan[1], cyan[2], cyan[3], cyan[4] );
-										SDL_RenderFillRect(Render, &rectangle);
 										SDL_RenderFillRect(Render, &rectangle1);
-										cout << "RENDERED" << endl;
-										SDL_SetRenderDrawColor(Render, grey[1], grey[2], grey[3], grey[4]);
+										SDL_RenderFillRect(Render, &rectangle);
 										SDL_RenderPresent(Render);
-										cout << rectangle1.y << endl;
 										break;
 									case SDLK_UP:
-										rectangle.y = rectangle1.y + 5;
+										rectangle.y += 10;
 										SDL_RenderClear(Render);
-										SDL_SetRenderDrawColor(Render, cyan[1], cyan[2], cyan[3], cyan[4] );
 										SDL_RenderFillRect(Render, &rectangle);
 										SDL_RenderFillRect(Render, &rectangle1);
-										cout << "RENDERED" << endl;
-										SDL_SetRenderDrawColor(Render, grey[1], grey[2], grey[3], grey[4]);
 										SDL_RenderPresent(Render);
-										cout << rectangle1.y << endl;
 										break;
 
 									case SDLK_DOWN:
-										rectangle.y = rectangle1.y - 5;
+										rectangle.y -= 10;
 										SDL_RenderClear(Render);
-										SDL_SetRenderDrawColor(Render, cyan[1], cyan[2], cyan[3], cyan[4] );
 										SDL_RenderFillRect(Render, &rectangle);
 										SDL_RenderFillRect(Render, &rectangle1);
-										cout << "RENDERED" << endl;
-										SDL_SetRenderDrawColor(Render, grey[1], grey[2], grey[3], grey[4]);
 										SDL_RenderPresent(Render);
-										cout << rectangle1.y << endl;
 										break;
 								}
 
