@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1494002887 source:/home/fosstar/codeblocks/openglwoo/main.cpp
+	<cstdlib>
+	<SDL2/SDL.h>
+	<iostream>
+
