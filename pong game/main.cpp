@@ -4,9 +4,9 @@ using namespace std;
 int dorender();
 SDL_Rect rectangle;
 SDL_Rect rectangle1;
-bool loop = true;
 SDL_Renderer * Render;
-int loadvarsandcreatewindowobject() {
+int load_vars_and_create_window_object()
+{
   int positionx = 50;
   int positiony = 50;
   int sizex = 800;
@@ -18,8 +18,8 @@ int loadvarsandcreatewindowobject() {
   SDL_RenderSetLogicalSize(Render, sizex, sizey);
   return 0;
 }
-
-int loadsquaredef() {
+int load_square_def()
+{
   rectangle.x = 20;
   rectangle.y = 300;
   rectangle.w = 30;
@@ -30,10 +30,10 @@ int loadsquaredef() {
   rectangle1.h = 200;
   return 0;
 }
-int movementlogic() {
+int movement_logic() {
+  bool loop = true;
   while (loop == true) {
     SDL_Event event;
-
     while (SDL_PollEvent( & event)) {
       if (event.type == SDL_QUIT)
         loop = false;
@@ -42,43 +42,39 @@ int movementlogic() {
         switch (event.key.keysym.sym) {
         case SDLK_RIGHT:
           rectangle1.y += 10;
-          dorender();
+          do_render();
           break;
-
         case SDLK_LEFT:
           rectangle1.y -= 10;
-          dorender();
+          do_render();
           break;
-
         case SDLK_UP:
           rectangle.y -= 10;
-          dorender();
+          do_render();
           break;
-
         case SDLK_DOWN:
           rectangle.y += 10;
-          dorender();
+          do_render();
           break;
         }
-
       }
     }
-
   }
   return 0;
 }
-int dorender() {
+int do_render()
+{
   SDL_RenderClear(Render);
   SDL_RenderFillRect(Render, & rectangle1);
   SDL_RenderFillRect(Render, & rectangle);
   SDL_RenderPresent(Render);
   return 0;
 }
-
-int main() {
-  loadvarsandcreatewindowobject();
-  loadsquaredef();
-  dorender();
-  movementlogic();
+int main()
+{
+  load_vars_and_create_window_object();
+  load_square_def();
+  do_render();
+  movement_logic();
   return 0;
 }
