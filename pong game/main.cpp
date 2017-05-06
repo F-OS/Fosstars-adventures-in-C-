@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <thread>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 using namespace std;
 int do_render();
@@ -46,28 +47,45 @@ int load_square_def()
  goal1.h = 2000;
  return 0;
 }
-bool collisiondetect(int testa_x, int testa_y, int testb_x, int testb_y, int sizea_x, int sizea_y, int sizeb_x, int sizeb_y)
+bool check_collision( SDL_Rect A, SDL_Rect B )
 {
- int aleft = testa_x;
- int bleft = testb_x;
- int atop = testa_y;
- int btop = testb_y;
- int aright = testa_x + sizea_x;
- int bright = testb_x + sizeb_x;
- int abottom = testa_y + sizea_y;
- int bbottom = testb_y + sizeb_y;
+ //The sides of the rectangles
+ int leftA, leftB;
+ int rightA, rightB;
+ int topA, topB;
+ int bottomA, bottomB;
 
- if ( aleft > bright )
-  return false;
+ //Calculate the sides of rect A
+ leftA = A.x;
+ rightA = A.x + A.w;
+ topA = A.y;
+ bottomA = A.y + A.h;
 
- if ( aright < bleft )
-  return false;
+ //Calculate the sides of rect B
+ leftB = B.x;
+ rightB = B.x + B.w;
+ topB = B.y;
+ bottomB = B.y + B.h;
 
- if ( atop > bbottom )
-  return false;
+ if( bottomA <= topB )
+  {
+   return false;
+  }
 
- if ( abottom < btop )
-  return false;
+ if( topA >= bottomB )
+  {
+   return false;
+  }
+
+ if( rightA <= leftB )
+  {
+   return false;
+  }
+
+ if( leftA >= rightB )
+  {
+   return false;
+  }
 
  return true;
 }
@@ -75,6 +93,10 @@ int movement_logic()
 {
  bool loop = true;
  int movementFactor = 15;
+ int ball_movx = 1;
+ int ball_movy = 0;
+ int score = 0;
+ int score1 = 0;
  SDL_Event e;
 
  while ( loop )
@@ -105,18 +127,65 @@ int movement_logic()
          {
           rectangle1.y -= movementFactor;
          }
-
-     do_render();
     }
 
+   if(ball.y + ball.h >= 800)
+    {
+     ball_movy--;
+    }
+
+   if(check_collision(ball, rectangle) == true)
+    {
+     ball_movx++;
+    }
+
+   if(check_collision(ball, rectangle1) == true)
+    {
+     ball_movx--;
+    }
+
+   if(check_collision(ball, goal))
+    {
+     cout << "GOAL" << endl;
+     ball.x = 400;
+     ball.y = 400;
+     ball_movx = 1;
+     score++;
+     cout << "The score is " << score << "to" << score1 << endl;
+
+    }
+
+   if(check_collision(ball, goal1))
+    {
+     cout << "GOAL" << endl;
+     ball.x = 400;
+     ball.y = 400;
+     ball_movx = 1;
+     score1++;
+     cout << "The score is " << score << " to " << score1 << endl;
+    }
+
+   if(score >= 10)
+    {
+     cout << "Player 1 wins!!" << endl;
+     return 0;
+    }
+
+   if(score1 >= 10)
+    {
+     cout << "Player 2 wins!!" << endl;
+     return 0;
+    }
+
+   ball.x = ball_movx + ball.x;
+   ball.y = ball_movy + ball.y;
+   do_render();
+   SDL_Delay(1);
   }
 
  return 0;
 }
-int timepointlog()
-{
 
-}
 int do_render()
 {
  SDL_RenderClear(Render);
@@ -133,7 +202,6 @@ int main()
  load_vars_and_create_window_object();
  load_square_def();
  do_render();
- thread(movement_logic);
- thread(timepointlog);
+ movement_logic();
  return 0;
 }
