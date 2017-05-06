@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <thread>
-#include <SDL2/SDL_ttf.h>
 #include <iostream>
 using namespace std;
 int do_render();
