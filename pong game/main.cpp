@@ -2,6 +2,7 @@
 #include <thread>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
+#include <math.h>
 using namespace std;
 int do_render();
 SDL_Rect rectangle;
@@ -9,6 +10,7 @@ SDL_Rect rectangle1;
 SDL_Rect goal;
 SDL_Rect goal1;
 SDL_Rect ball;
+int difficulty;
 SDL_Renderer * Render;
 int load_vars_and_create_window_object()
 {
@@ -92,12 +94,17 @@ bool check_collision( SDL_Rect A, SDL_Rect B )
 int movement_logic()
 {
  bool loop = true;
- int movementFactor = 15;
- int ball_movx = 1;
- int ball_movy = 0;
+ int movementFactor = 20;
+ double ball_movx = 0.0000;
+ double ball_movy = 0.0000;
  int score = 0;
  int score1 = 0;
+ ball_movx = rand() % 2;
+ ball_movy = rand() % 2;
  SDL_Event e;
+ int centerrect = 0;
+ int centerball = 0;
+ int paddlelocation = 0;
 
  while ( loop )
   {
@@ -129,35 +136,48 @@ int movement_logic()
          }
     }
 
-   if(ball.y + ball.h >= 800)
+   if(ball.y <= 5)
     {
-     ball_movy--;
+     ball_movy = ball_movy + 1;
+     ball_movx = ball_movx - .2 * 3.14159257;
+    }
+
+   if(ball.y >= 765)
+    {
+     ball_movy = ball_movy - 1;
+     ball_movx = ball_movx + .2 * 3.14159257;
     }
 
    if(check_collision(ball, rectangle) == true)
     {
+     centerrect = rectangle.y + rectangle.h;
+     centerball = ball.y + ball.h;
+     paddlelocation = centerball - centerrect;
      ball_movx++;
+     ball_movy = cos(paddlelocation) * 1.5;
     }
 
    if(check_collision(ball, rectangle1) == true)
     {
+     centerrect = rectangle1.y + rectangle1.h;
+     centerball = ball.y + ball.h;
+     paddlelocation = centerball - centerrect;
      ball_movx--;
+     ball_movy = sin(paddlelocation) * 1.5;
     }
 
    if(check_collision(ball, goal))
     {
-     cout << "GOAL" << endl;
      ball.x = 400;
      ball.y = 400;
      ball_movx = 1;
      score++;
-     cout << "The score is " << score << "to" << score1 << endl;
+     cout << "The score is " << score << " to " << score1 << endl;
 
     }
 
    if(check_collision(ball, goal1))
     {
-     cout << "GOAL" << endl;
      ball.x = 400;
      ball.y = 400;
      ball_movx = 1;
@@ -179,6 +199,17 @@ int movement_logic()
 
    ball.x = ball_movx + ball.x;
    ball.y = ball_movy + ball.y;
+
+   if(ball.y > rectangle1.y && rand() % 100 > difficulty)
+    {
+     rectangle1.y++;
+    }
+
+   if(ball.y < rectangle1.y && rand() % 100 > difficulty)
+    {
+     rectangle1.y--;
+    }
+
    do_render();
    SDL_Delay(1);
   }
@@ -199,6 +230,8 @@ int do_render()
 }
 int main()
 {
+ cout << "Please enter your requested difficulty, keep it between 0 and 100, lower numbers are more difficult, 0 is the hardest." << endl;
+ cin >> difficulty;
  load_vars_and_create_window_object();
  load_square_def();
  do_render();
