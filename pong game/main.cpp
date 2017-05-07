@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <thread>
-#include <SDL2/SDL_ttf.h>
 #include <iostream>
 #include <math.h>
 using namespace std;
