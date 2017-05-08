@@ -1,0 +1,5 @@
+cppcheck: XML format version 1 is deprecated and will be removed in cppcheck 1.81. Use '--xml-version=2'.
+Checking main.cpp ...
+Defines: 
+Includes:
+Platform:unknown
