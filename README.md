@@ -1,2 +1,2 @@
 # Fosstars-adventures-in-C-
-What the fuck is object oriented programming.
+Old code from High School. This is low quality
